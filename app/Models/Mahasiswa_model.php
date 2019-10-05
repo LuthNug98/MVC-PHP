@@ -1,55 +1,26 @@
 <?php 
 
-class Mahasiswa_model {
+class Mahasiswa_model {	
+		private $table = 'mahasiswa';
+		private $db;
 
-	private $dbh; // db handler
-	private $stmt;
-
-		public function __construct() {
-			// data source nama
-			$dsn = 'mysql:host=localhost;dbname=phpmvc';
-
-			try {
-				$this->dbh = new PDO($dsn, 'root', '');
-			} 
-			catch (PDOException $e) {
-				die($e->getMessage());
-				
-			}
-		} 
-
-	public function getAllMahasiswa() {
-		$this->stmt = $this->dbh->prepare('SELECT * FROM mahasiswa');
-		$this->stmt->execute();
-		return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+		public function __Construct() {
+		$this->db = new Database;
 
 	}
+
+	public function getAllMahasiswa() {
+		$this->db->query('SELECT * FROM ' . $this->table);
+		return $this->db->resultSet();
+
+	}
+
+	public function getMahasiswaById($id) {
+		$this->db->query('SELECT * FROM ' . $this->table . ' WHERE id=:id');
+		$this->db->bind('id', $id);
+		return $this->db->single();
+	}
 }
-
-
-
-
-	// private $mhs = [ 
-	// 	[
-
-	// 		"nama" => "Luthfi Nugraha",
-	// 		"nrp" => "173040124",
-	// 		"email" => "Luthfi_173040124@unpas.ac.id",
-	// 		"jurusan" => "Teknik Informatika"
-	// 	],
-	// 	[
-	// 		"nama" => "Ujang",
-	// 		"nrp" => "173041243",
-	// 		"email" => "ujang_173041243@unpas.ac.id",
-	// 		"jurusan" => "Teknik Mesin"
-	// 	],
-	// 	[
-	// 		"nama" => "Asep",
-	// 		"nrp" => "173060111",
-	// 		"email" => "Asep_173060111@unpas.ac.id",
-	// 		"jurusan" => "Teknik Industri"
-	// 	]
-	// ];
 
 
  ?>
